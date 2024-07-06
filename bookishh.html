@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOOKISHH</title>
+    <link rel="stylesheet" href="stylebookish.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <nav>
+                <ul>
+                    <li>
+                        <div class="logo">
+                            <img src="image/logo.png" alt="Logo">
+                        </div>
+                    </li>
+                    <li><a href="#Home"><h3>Home</h3></a></li>
+                    <li><a href="#About"><h3>About</h3></a></li>
+                    <li><a href="#Featured"><h3>Featured</h3></a></li>
+                    <li><a href="#Arrivals"><h3>Arrivals</h3></a></li>
+                    <li><a href="#Reviews"><h3>Reviews</h3></a></li>
+                    <li><a href="#Blog"><h3>Blog</h3></a></li>
+                    <li>
+                        <a href="cart.html"><h3>Cart ({{ cart.length }})</h3></a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <br>
+        <div class="main">
+            <div class="main_tag">
+                <h1>WELCOME TO<br><span>BOOKISHH</span></h1>
+                <h2>
+                    <p>
+                        <b>Bookish</b> is an online platform that provides an extensive library of books in digital format for free to everyone around the world.
+                        With <b>Bookish</b>, you have access to all kinds of educational, motivational, and career books to keep you going in any area.
+                        Over the years, we have remained committed to providing a valuable service to readers.
+                    </p>
+                </h2>
+            </div>
+            <div class="main_img">
+                <img src="image/table.png">
+            </div>
+        </div>
+        <br><br>
+        <section id="about">
+            <div class="container">
+                <div class="image-container">
+                    <img src="image/about_.jpg" alt="3D Books Image">
+                </div>
+                <div class="content-container">
+                    <div style="display: flex; justify-content: center; align-items: center; height: 50px;">
+                        <center>
+                            <h2 style="text-align: center; color: #333; font-size: 30px; font-family: 'Pacifico', cursive;">
+                                ABOUT US
+                            </h2>
+                        </center>
+                    </div>
+                    <br>
+                    <h2>{{ aboutText }}</h2>
+                    <h2>{{ aboutTextContinued }}</h2>
+                </div>
+            </div>
+        </section>
+        <br>
+        <br>
+        <div>
+            <div style="display: flex; justify-content: center; align-items: center; height: 100px;">
+                <center>
+                    <h1 style="text-align: center; color: #333; font-size: 55px; font-family: 'Pacifico', cursive;">
+                        Browse by your favorite category
+                    </h1>
+                </center>
+                <br>
+            </div>
+            <br>
+            <br>
+            <ul class="category">
+                <li v-for="category in categories">
+                    <a :href="getCategoryLink(category)" target="_blank">{{ category }}</a>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <br>
+        <!-- Featured Books -->
+        <div class="featured_books">
+            <div style="display: flex; justify-content: center; align-items: center; height: 100px;">
+                <center>
+                    <h1 style="text-align: center; color: #333; font-size: 55px; font-family: 'Pacifico', cursive;">
+                        FEATURED BOOKS
+                    </h1>
+                </center>
+                <br>
+            </div>
+            <div class="featured_book_box">
+                <div v-for="book in featuredBooks" class="featured_book_card">
+                    <div class="featured_book_img">
+                        <img :src="book.image" :alt="book.title" class=" book-image">
+                    </div>
+                    <div class="featured_book_tag">
+                        <h2>{{ book.title }}</h2>
+                        <p class="writer">{{ book.writer }}</p>
+                        <div class="categories">{{ book.categories }}</div>
+                        <p class="book_price">{{ book.price }}</p>
+                        <button class="f_btn" @click="addToCart(book)" style="background-color: #1b7585; color: #FFFFFF;">Add to Cart</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+
+         <!-- Cart -->
+         <section>
+            
+                 <h1 style="text-align: center; color: #333; font-size: 55px; font-family: 'Pacifico', cursive;">
+                            Your Cart
+                      </h1>
+                      <br>
+                    
+            <div v-if="cart.length === 0">
+                <div v-if="cart.length === 0" style="text-align: center; color: #555; font-size: 18px;">
+                    <p style="margin: 0;"> <h1>Your cart is empty.</h1></p>
+                  </div>
+                  
+            </div>
+            <div v-else>
+                <div v-for="item in cart" class="cart-item" style="text-align: center; font-weight: bold;">
+                    <h3>{{ item.title }}</h3>
+                    <p>Price: {{ item.price }}</p>
+                </div>
+                <h2><div class="total" style="text-align: center; font-weight: bold;">
+                    Total: {{ getTotal() }}
+                  </div></h2>
+                <center> <button class="checkout-btn" @click="checkout">Checkout</button></center>
+            </div>
+        </section>
+        
+        <br><br>
+        
+
+      
+        <!-- Reviews -->
+        <div class="reviews">
+            <div style="display: flex; justify-content: center; align-items: center; height: 100px;">
+                <center>
+                    <h1 style="text-align: center; color: #333; font-size: 55px; font-family: 'Pacifico', cursive;">
+                        REVIEWS
+                    </h1>
+                </center>
+            </div>
+            <div class="review_box">
+                <div v-for="review in reviews" class="review_card">
+                    <div class="card_top">
+                        <img :src="review.image" :alt="review.name">
+                    </div>
+                    <div class="card">
+                        <h2>{{ review.name }}</h2>
+                        <p>{{ review.reviewText }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+
+        <!-- Services -->
+        <div class="reviews">
+            <div style="display: flex; justify-content: center; align-items: center; height: 10px;">
+                <center>
+                    <h1 style="text-align: center; color: #333; font-size: 45px; font-family: 'Pacifico', cursive;">
+                        BEST EVER SERVICES
+                    </h1>
+                </center>
+            </div>
+            <div class="services">
+                <div class="services_box">
+                    <div v-for="service in services" class="services_card">
+                        <h3>{{ service.title }}</h3>
+                        <p>{{ service.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p>&copy; 2023 Online Book Store. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                aboutText: "At Bookishh, we are passionate about books and believe in the power of storytelling. Our mission is to provide book enthusiasts with a convenient and enriching platform to explore, discover, and purchase their favorite reads. With an unwavering commitment to quality and customer satisfaction, we strive to be your go-to destination for all things book-related.",
+                aboutTextContinued: "What sets us apart is our carefully curated selection of books spanning various genres, including fiction, non-fiction, romance, mystery, science fiction, self-help, and many more. We understand that every reader is unique, and our diverse range ensures that there's something for everyone. From timeless classics to contemporary bestsellers, we take pride in offering a wide array of literary treasures that captivate, inspire, and entertain.",
+                categories: ['Science Fiction', 'Self Help', 'Love', 'Biopics', 'Fantasy', 'Mystery', 'Romance', 'Thriller'],
+                featuredBooks: [
+                    {
+                        title: "How to Read People Like a Book",
+                        image: "image/book_1.jpg",
+                        writer: "James Williams",
+                        categories: "Self Help",
+                        price: "799 Rs"
+                    },
+                    {
+                        title: "The Chalk Man",
+                        image: "image/book_2.jpg",
+                        writer: "C. J. Tudor",
+                        categories: "Horror, Thriller, Mystery",
+                        price: "699 Rs"
+                    },
+
+                    {
+                        title: "8 Rules of love",
+                        image: "image/book_3.jpg",
+                        writer: "Jay shetty",
+                        categories: "love",
+                        price: "763 Rs"
+                    },
+                    {
+                        title: "A little bit of love",
+                        image: "image/book_4.jpg",
+                        writer: "Bella jay",
+                        categories: "love",
+                        price: "429 Rs"
+                    },
+                    {
+                        title: "Clever lands",
+                        image: "image/book_5.jpg",
+                        writer: "lucy",
+                        categories: "Mystery",
+                        price: "449 Rs"
+                    },
+                    {
+                        title: "Shattered",
+                        image: "image/book_6.jpg",
+                        writer: "Dick Francis",
+                        categories: "Science Fiction",
+                        price: "939 Rs"
+                    },
+                    {
+                        title: "The subtle art of not giving a fuck",
+                        image: "image/book_7.jpg",
+                        writer: "Mark manson",
+                        categories: "self help",
+                        price: "929 Rs"
+                    },
+                    {
+                        title: "The power of subconscious mind",
+                        image: "image/book_8.jpg",
+                        writer: "Dr. Joseph murphy",
+                        categories: "self help",
+                        price: "593 Rs"
+                    },
+                    {
+                        title: "Free fall",
+                        image: "image/book_9.jpg",
+                        writer: "Peter Cawdron",
+                        categories: "acience fiction",
+                        price: "909 Rs"
+                    },
+                    {
+                        title: "How emotion are made",
+                        image: "image/book_10.jpg",
+                        writer: "Lisa",
+                        categories: "Thriller",
+                        price: "879 Rs"
+                    },
+                    // Add more featured books
+                ],
+               
+                reviews: [
+                    {
+                        name: "Aayush Dharpure",
+                        image: "image/review_1.png",
+                        reviewText: "I recently discovered Bookish, and I must say it's a fantastic online book store. The website is user-friendly and easy to navigate, making it a breeze to find and purchase the books I'm interested in. They have a vast collection of titles across various genres, and I appreciate the detailed book descriptions and customer reviews that help me make informed decisions."
+                    },
+                    {
+                        name: "Aastha Singh",
+                        image: "image/review_4.png",
+                        reviewText: "I recently discovered Bookish, and I must say it's a fantastic online book store. The website is user-friendly and easy to navigate, making it a breeze to find and purchase the books I'm interested in. They have a vast collection of titles across various genres, and I appreciate the detailed book descriptions and customer reviews that help me make informed decisions."
+                    },
+                    {
+                        name: "Pranav Darak",
+                        image: "image/review_3.png",
+                        reviewText: "I recently discovered Bookish, and I must say it's a fantastic online book store. The website is user-friendly and easy to navigate, making it a breeze to find and purchase the books I'm interested in. They have a vast collection of titles across various genres, and I appreciate the detailed book descriptions and customer reviews that help me make informed decisions."
+                    },
+                    // Add more reviews
+                ],
+                services: [
+                    {
+                        title: "Fast Delivery",
+                        description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit."
+                    },
+                    {
+                        title: "24 x 7 Services",
+                        description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit."
+                    },
+                    {
+                        title: "Best Deal",
+                        description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit."
+                    },
+                    {
+                        title: "Secure Payment",
+                        description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit."
+                    },
+                    // Add more services
+                ],
+                cart: []
+            },
+           methods: {
+                getCategoryLink(category) {
+                    return category.toLowerCase().replace(/\s/g, '') + '.html';
+                },
+                addToCart(book) {
+                    this.cart.push(book);
+                },
+                getTotal() {
+                    return this.cart.reduce((total, item) => total + parseFloat(item.price), 0).toFixed(2);
+                },
+                checkout() {
+                    // Perform checkout logic here
+                    alert('Checkout Successful!');
+                    this.cart = [];
+                }
+            }
+        });
+    </script>
+</body>
+</html>
